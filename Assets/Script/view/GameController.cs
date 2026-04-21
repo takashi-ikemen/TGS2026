@@ -4,7 +4,7 @@ public class GameController : MonoBehaviour
 {
     GameState state;
 
-    PieceView[,] views = new PieceView[8,8];
+    PieceView[,] views = new PieceView[5,7];
 
     [SerializeField] GameObject whitePawn;
     [SerializeField] GameObject blackPawn;
@@ -19,8 +19,8 @@ public class GameController : MonoBehaviour
 
     void SpawnPieces()
     {
-        for (int x = 0; x < 8; x++)
-        for (int y = 0; y < 8; y++)
+        for (int x = 0; x < 5; x++)
+        for (int y = 0; y < 7; y++)
         {
             var piece = state.Board.Get(x, y);
             if (piece.IsEmpty) continue;
