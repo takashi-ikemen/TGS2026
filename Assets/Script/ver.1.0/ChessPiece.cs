@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-public enum PieceType
+public enum PieceType0
 {
     Pawn,
     Knight,
@@ -11,11 +11,14 @@ public enum PieceType
 
 public class ChessPiece : MonoBehaviour
 {
+
+
     private int owner;
     private PieceType pieceType;
     public Vector2Int boardPosition;
+    [SerializeField]public GameObject PiecePrefab;
 
-    public ChessPiece(int owner,PieceType pieceType)
+    public ChessPiece(PieceType pieceType)
     {
         
     }
