@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public GameObject tilePrefab;
+    public GameObject TilePrefab;
     public GameObject PawnPrefab;
     //public GameObject KnightPrefab;
     //public GameObject RookPrefab;
@@ -12,7 +12,8 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        
+        GenerateBoard();
+        SpawnPawn(1);
     }
 
     void GenerateBoard()
@@ -21,7 +22,7 @@ public class BoardManager : MonoBehaviour
         {
             for(int z=0; z<7; z++)
             {
-                GameObject tile = Instantiate(tilePrefab);
+                GameObject tile = Instantiate(TilePrefab);
                 tile.transform.position = new Vector3(x, 0, z);
                 tile.name = $"Tile {x},{z}";
 
@@ -39,11 +40,12 @@ public class BoardManager : MonoBehaviour
         ChessPiece piece = obj.GetComponent<ChessPiece>();
         piece.SetPieceType(PieceType.Pawn);
         piece.SetOwner(owner);
-        piece.boardPosition = new Vector2Int(0, 1);
+        piece.boardPosition = new Vector2Int(0, 1); //Œã‚Å(0,1)‚É–ß‚·
 
         board[0, 1] = piece;
-
     }
+
+
 
     public void MovePiece(ChessPiece piece,Vector2Int target)
     {
