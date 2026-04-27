@@ -30,9 +30,11 @@ public static class MoveGenerator
         return moves;
     }
 
+    //ポーン
     static void GeneratePawn(GameState state, int x, int y, List<Move> moves)
     {
         var piece = state.Board.Get(x, y);
+        //白駒なら上に、黒駒なら下に
         int dir = piece.Color == PieceColor.White ? 1 : -1;
 
         int ny = y + dir;
@@ -43,6 +45,7 @@ public static class MoveGenerator
         }
     }
 
+    //ルーク
     static void GenerateRook(GameState state, int x, int y, List<Move> moves)
     {
                    //上 下 右 左
@@ -82,6 +85,7 @@ public static class MoveGenerator
         }
     }
 
+    //ナイト
     static void GenerateKnight(GameState state, int x, int y, List<Move> moves)
     {
         //移動可能マス
@@ -93,6 +97,7 @@ public static class MoveGenerator
         int nx = x;
         int ny = y;
 
+        //移動可能マスに移動できるか確認
         for(int d = 0; d < 8; d++)
         {
             nx = x + dx[d];
@@ -104,6 +109,7 @@ public static class MoveGenerator
         }
     }
 
+    //キング
     static void GenerateKing(GameState state, int x, int y, List<Move> moves)
     {
         //移動可能マス
@@ -115,6 +121,7 @@ public static class MoveGenerator
         int nx = x;
         int ny = y;
 
+        //移動可能マスに移動できるか確認
         for (int d = 0; d < 8; d++)
         {
             nx = x + dx[d];

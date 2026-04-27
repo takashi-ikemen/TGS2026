@@ -6,6 +6,7 @@ public static class MoveApplier
 
         var piece = newState.Board.Get(move.FromX, move.FromY);
 
+
         newState.Board.Set(move.ToX, move.ToY, piece);
         newState.Board.Set(move.FromX, move.FromY, Piece.Empty);
 
