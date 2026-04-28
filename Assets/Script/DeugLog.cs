@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class DeugLog : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class DeugLog : MonoBehaviour
         string boardStr = "";
         state = GameInitializer.CreateInitial();
         Piece piece = state.Board.Get(2,0);
+        Mine mine = state.Mine;
         Debug.Log(piece.Type);
         Debug.Log(piece.Color);
 
@@ -25,16 +28,28 @@ public class DeugLog : MonoBehaviour
         }
         Debug.Log(boardStr);
 
+        Debug.Log($"mine:{mine.GetMineX()},{mine.GetMineY()}");
+
+    }
+
+    public void OnClickReroll()
+    {
+        Mine mine = MineGenerator.GenerateMine(0, 5, 0, 7, state.Board);
+        Debug.Log($"mine:{mine.GetMineX()},{mine.GetMineY()}");
+
+    } 
+
+    public void OnClickMove()
+    {
         //GenerateMoves‚ÌŒÄ‚Ño‚µ
         var moveCheck = new List<Move>();
         moveCheck = MoveGenerator.GenerateMoves(state);
 
         //List<Move>‚Ì’†g‚İ‚é
-        foreach(var item in moveCheck)
+        foreach (var item in moveCheck)
         {
             Debug.Log($"From:{item.FromX},{item.FromY}\nTo:{item.ToX},{item.ToY}");
         }
-
 
         //‹î‚ÌˆÊ’u‚ğéŒ¾«
         int fx = 3;
@@ -46,12 +61,19 @@ public class DeugLog : MonoBehaviour
         {
             Debug.Log($"From:{item.FromX},{item.FromY}\nTo:{item.ToX},{item.ToY}");
         }
+        state = MoveApplier.Apply(state, pieceMove[1]);
 
-
-
-
-
-
+        string boardStr = "";
+        for (int x = 0; x < 5; x++)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                Piece piece = state.Board.Get(x, y);
+                boardStr += piece.Type;
+            }
+            boardStr += "\n";
+        }
+        Debug.Log(boardStr);
+        Debug.Log($"mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}");
     }
- 
 }
