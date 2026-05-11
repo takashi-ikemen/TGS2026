@@ -17,23 +17,23 @@ public static class GameInitializer
                 board.Squares[x, y] = Piece.Empty;
 
         // ポーン配置
-        for (int x = 1; x <= 3; x++)
-        {
-            board.Set(x, 1, new Piece { Type = PieceType.Pawn, Color = PieceColor.White });
-            board.Set(x, 5, new Piece { Type = PieceType.Pawn, Color = PieceColor.Black });
-        }
+        //for (int x = 1; x <= 3; x++)
+        //{
+        //    board.Set(x, 1, new Piece { Type = PieceType.Pawn, Color = PieceColor.White });
+        //    board.Set(x, 5, new Piece { Type = PieceType.Pawn, Color = PieceColor.Black });
+        //}
 
         // ルーク配置
         board.Set(1, 0, new Piece { Type = PieceType.Rook, Color = PieceColor.White });
         board.Set(3, 6, new Piece { Type = PieceType.Rook, Color = PieceColor.Black });
 
-        // ナイト配置
-        board.Set(3, 0, new Piece { Type = PieceType.Knight, Color = PieceColor.White });
-        board.Set(1, 6, new Piece { Type = PieceType.Knight, Color = PieceColor.Black });
+        //// ナイト配置
+        //board.Set(3, 0, new Piece { Type = PieceType.Knight, Color = PieceColor.White });
+        //board.Set(1, 6, new Piece { Type = PieceType.Knight, Color = PieceColor.Black });
 
-        // キング配置
-        board.Set(2, 0, new Piece { Type = PieceType.King, Color = PieceColor.White });
-        board.Set(2, 6, new Piece { Type = PieceType.King, Color = PieceColor.Black });
+        //// キング配置
+        //board.Set(2, 0, new Piece { Type = PieceType.King, Color = PieceColor.White });
+        //board.Set(2, 6, new Piece { Type = PieceType.King, Color = PieceColor.Black });
 
         //　地雷配置
         Mine mine = new Mine();

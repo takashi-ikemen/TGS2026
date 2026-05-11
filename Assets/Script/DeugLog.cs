@@ -53,7 +53,7 @@ public class DeugLog : MonoBehaviour
         }
 
         //駒の位置を宣言↓
-        int fx = 3;
+        int fx = 1;
         int fy = 0;
 
         //上記位置の駒の移動可能パターンを取得しListに格納
@@ -64,7 +64,7 @@ public class DeugLog : MonoBehaviour
         }
 
         //移動可能パターンから選んだ移動を適用
-        state = MoveApplier.Apply(state, pieceMove[1]);
+        state = MoveApplier.Apply(state, pieceMove[5]);
 
        
 
