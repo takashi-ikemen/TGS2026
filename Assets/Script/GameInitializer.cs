@@ -46,7 +46,8 @@ public static class GameInitializer
         {
             Board = board,
             Turn = PieceColor.White,
-            Mine = mine
+            Mine = mine,
+            Winner = Winner.none
         };
 
     }

@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem.LowLevel;
 
 
 public class DeugLog : MonoBehaviour
@@ -55,14 +56,21 @@ public class DeugLog : MonoBehaviour
         int fx = 3;
         int fy = 0;
 
-        //上記位置の駒のMoveを取得しListに格納
+        //上記位置の駒の移動可能パターンを取得しListに格納
         List<Move> pieceMove = moveCheck.FindAll(move => move.FromX == fx && move.FromY == fy);
         foreach (var item in pieceMove)
         {
             Debug.Log($"From:{item.FromX},{item.FromY}\nTo:{item.ToX},{item.ToY}");
         }
+
+        //移動可能パターンから選んだ移動を適用
         state = MoveApplier.Apply(state, pieceMove[1]);
 
+       
+
+
+
+        //盤の出力
         string boardStr = "";
         for (int x = 0; x < 5; x++)
         {
@@ -75,5 +83,48 @@ public class DeugLog : MonoBehaviour
         }
         Debug.Log(boardStr);
         Debug.Log($"mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}");
+    }
+
+    public void OnClickApocalypse()
+    {
+        state.Board.Set(2,6, Piece.Empty);
+        //state.Board.Set(1,5, Piece.Empty);
+        //state.Board.Set(2,5, Piece.Empty);
+        //state.Board.Set(3,6, Piece.Empty);
+        //state.Board.Set(3,5, Piece.Empty);
+
+            //破壊後の盤
+        string boardStr = "";
+        for (int x = 0; x < 5; x++)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                Piece piece = state.Board.Get(x, y);
+                boardStr += piece.Type;
+            }
+            boardStr += "\n";
+        }
+        Debug.Log(boardStr);
+    }
+
+    public void OnClickJudge()
+    {
+        //ゲーム続行か終了か
+        GameFinisher gameFinisher = new GameFinisher();
+        Winner winner = gameFinisher.IsGameFinish(state);
+
+        //生存コマ確認
+        List<Piece> surviveBlackPieces = CountPieces.SurviveBlackPieceCounter(state);
+        foreach(var item in surviveBlackPieces){
+            Debug.Log($"Black:{item.Type}");
+        }
+        List<Piece> surviveWhitePieces = CountPieces.SurviveWhitePieceCounter(state);
+        foreach (var item in surviveWhitePieces)
+        {
+            Debug.Log($"White:{item.Type}");
+        }
+
+        Debug.Log(winner);
+
     }
 }
