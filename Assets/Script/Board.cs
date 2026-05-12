@@ -7,6 +7,6 @@ public struct Board
 
     public bool IsInside(int x, int y)
     {
-        return x >= 0 && x < 8 && y >= 0 && y < 8;
+        return x >= 0 && x < 5 && y >= 0 && y < 7;
     }
 }
