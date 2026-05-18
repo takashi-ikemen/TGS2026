@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using Unity.VisualScripting;
 
 public static class GameInitializer
@@ -34,10 +35,19 @@ public static class GameInitializer
         board.Set(2, 0, new Piece { Type = PieceType.King, Color = PieceColor.White });
         board.Set(2, 6, new Piece { Type = PieceType.King, Color = PieceColor.Black });
 
+        //　地雷配置
+        Mine mine = new Mine();
+        //初期配置は0 <= x < 5, 2 <= y < 5
+        mine = MineGenerator.GenerateMine(0, 5, 2, 5, board);
+
+
+
         return new GameState
         {
             Board = board,
-            Turn = PieceColor.White
+            Turn = PieceColor.White,
+            Mine = mine,
+            Winner = Winner.none
         };
 
     }
