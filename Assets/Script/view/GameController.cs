@@ -138,9 +138,11 @@ public class GameController : MonoBehaviour
 
 
                     currentMoves = ViewCanMoveArea(piece.x, piece.y);
-
+                    
                     tileM.ViewArea(selectedPiece.x, selectedPiece.y);
 
+                        
+                    
 
                     isMoveRay = true;
                 }
@@ -209,7 +211,7 @@ public class GameController : MonoBehaviour
             if (found)
             {
                 //à⁄ìÆ
-                //ApplyMove(selectedMove);
+                ApplyMove(selectedMove);
                 Debug.Log("à⁄ìÆÅI");
             }
 
