@@ -41,12 +41,10 @@ public class GameController : MonoBehaviour
     {
         if (!isMoveRay)
         {
-            Debug.Log("駒モード");
             UpdateAreaPieceHover();
         }
         else
         {
-            Debug.Log("タイルモード");
             UpdateAreaTileHover();
         }
     }
@@ -105,6 +103,19 @@ public class GameController : MonoBehaviour
 
         views[move.FromX, move.FromY] = null;
 
+        //地雷爆発
+        if (state.MineExploded)
+        {
+            //移動駒削除
+            Destroy(view.gameObject);
+
+            //爆発エフェクト
+            Debug.Log("爆発！！！");
+
+            return;
+        }
+
+        //通常移動
         view.MoveTo(move.ToX, move.ToY);
         views[move.ToX, move.ToY] = view;
     }
@@ -180,7 +191,6 @@ public class GameController : MonoBehaviour
 
             if(tile != null)
             {
-                Debug.Log("あります");
                 if(currentTile != null && currentTile != tile)
                 {
                     currentTile.TileHighLight(Tile.HighLightTileType.None);

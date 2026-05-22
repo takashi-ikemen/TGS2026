@@ -7,4 +7,10 @@ public struct GameState
     public PieceColor Turn;
     public Mine Mine;
     public Winner Winner;
+
+    //ˆêŽžƒCƒxƒ“ƒg
+    public bool MineExploded;
+
+    public int ExplosionX;
+    public int ExplosionY;
 }
