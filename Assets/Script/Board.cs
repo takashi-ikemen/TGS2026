@@ -1,6 +1,6 @@
 public struct Board
 {
-    public Piece[,] Squares; // [x, y]
+    public Piece[,] Squares; // [x, y]  Pieceの情報を二次元リストに格納
 
     public Piece Get(int x, int y) => Squares[x, y];
     public void Set(int x, int y, Piece piece) => Squares[x, y] = piece;

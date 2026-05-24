@@ -3,16 +3,21 @@ using UnityEngine;
 
 public class PieceView : MonoBehaviour
 {
+    /* -----
+    Pieceを表示・見た目を反映させるスクリプト
+    -----*/
+
+
     public int x, y;
 
     Renderer rend;
     [SerializeField] Renderer renderObj;
 
-    Color defaultColor;
+    //Color defaultColor;
 
     Color baseColor;
 
-    public enum HighLightType
+    public enum HighLightType //ハイライトの区別をするHighLightType
     {
         None,
         Hover,
@@ -27,21 +32,21 @@ public class PieceView : MonoBehaviour
 
 
 
-    public void SetPositionImmediate(int x, int y)
+    public void SetPositionImmediate(int x, int y) //初期配置
     {
         this.x = x;
         this.y = y;
         transform.position = new Vector3(x, 0.65f, y);
     }
 
-    public void MoveTo(int x, int y, float duration = 0.3f)
+    public void MoveTo(int x, int y, float duration = 0.3f)  //移動
     {
         this.x = x;
         this.y = y;
         StartCoroutine(MoveCoroutine(new Vector3(x, 0, y), duration));
     }
 
-    IEnumerator MoveCoroutine(Vector3 target, float duration)
+    IEnumerator MoveCoroutine(Vector3 target, float duration)  //移動するさいの動き
     {
         Vector3 start = transform.position;
         float time = 0f;
@@ -61,7 +66,7 @@ public class PieceView : MonoBehaviour
 
     }
 
-    public void SetHighLight(HighLightType type)
+    public void SetHighLight(HighLightType type)  //ハイライトをかえる
     {
         switch(type)
         {

@@ -4,8 +4,10 @@ public static class MoveApplier
 {
     public static GameState Apply(GameState state, Move move)
     {
+        //Œ»İ‚ÌState‚ğ•Ê‚Ì•Ï”newState‚ÉŠi”[
         var newState = state;
 
+     
         newState.MineExploded = false;
 
         var piece = newState.Board.Get(move.FromX, move.FromY);

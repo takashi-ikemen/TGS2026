@@ -3,13 +3,17 @@ using System.Collections;
 
 public class Tile : MonoBehaviour
 {
+    /* -----
+    Tileを表示・見た目を反映させるスクリプト
+    -----*/
+
     public int tileX, tileY;
 
     Renderer rend;
     [SerializeField] Renderer renderObj;
     Color baseColor;
 
-    public enum HighLightTileType
+    public enum HighLightTileType  //ハイライトの区別をするHighLightTileType
     {
         None,
         CanArea,
@@ -23,14 +27,14 @@ public class Tile : MonoBehaviour
         
     }
 
-    public void SetTile(int x, int y)
+    public void SetTile(int x, int y)  //タイルを初期配置する
     {
         this.tileX = x;
         this.tileY = y;
         transform.position = new Vector3(tileX, 0, tileY);
     }
 
-    public void TileHighLight(HighLightTileType type)
+    public void TileHighLight(HighLightTileType type)  //ハイライトをかえる
     {
         switch(type)
         {
