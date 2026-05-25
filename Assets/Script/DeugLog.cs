@@ -13,38 +13,49 @@ public class DeugLog : MonoBehaviour
     {
         string boardStr = "";
         state = GameInitializer.CreateInitial();
-        Piece piece = state.Board.Get(2,0);
-        Mine mine = state.Mine;
+        Piece piece = state.Board.Get(2, 0);
+        var grail = state.Grail;
+        var mine = state.Mine;
         Debug.Log(piece.Type);
         Debug.Log(piece.Color);
 
         // 盤の出力
-        for(int x=0; x < 5; x++) { 
-            for(int y=0; y < 7; y++)
+        for (int x = 0; x < 5; x++)
+        {
+            for (int y = 0; y < 7; y++)
             {
                 piece = state.Board.Get(x, y);
                 boardStr += piece.Type;
             }
-        boardStr += "\n";
+            boardStr += "\n";
         }
         Debug.Log(boardStr);
 
-        Debug.Log($"mine:{mine.GetMineX()},{mine.GetMineY()}");
+        Debug.Log($"grail:{grail.GetMineX()},{grail.GetMineY()}, {grail.GetIsEnable()},{grail.GetIsVisible()}");
+        Debug.Log($"mine:{mine.GetMineX()},{mine.GetMineY()}, {mine.GetIsEnable()},{mine.GetIsVisible()}");
 
     }
 
     public void OnClickReroll()
     {
-        Mine mine = MineGenerator.GenerateMine(0, 5, 0, 7, state.Board);
-        Debug.Log($"mine:{mine.GetMineX()},{mine.GetMineY()}");
+        state = MineGenerator.GenerateMine(0, 5, 0, 7, state);
+        Debug.Log($"grail:{state.Grail.GetMineX()},{state.Grail.GetMineY()}, {state.Grail.GetIsEnable()},{state.Grail.GetIsVisible()}");
+        Debug.Log($"mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}, {state.Mine.GetIsEnable()},{state.Mine.GetIsVisible()}");
 
-    } 
+    }
 
     public void OnClickMove()
     {
+
+        //Debug.Log($"前前前grail:{state.Grail.GetMineX()},{state.Grail.GetMineY()}, {state.Grail.GetIsGrail()},{state.Grail.GetIsVisible()}");
+        //Debug.Log($"前前前mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}, {state.Mine.GetIsGrail()},{state.Mine.GetIsVisible()}");
+
         //GenerateMovesの呼び出し
         var moveCheck = new List<Move>();
         moveCheck = MoveGenerator.GenerateMoves(state);
+
+        //Debug.Log($"前前grail:{state.Grail.GetMineX()} , {state.Grail.GetMineY()} ,  {state.Grail.GetIsGrail()} , {state.Grail.GetIsVisible()}");
+        //Debug.Log($"前前mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}, {state.Mine.GetIsGrail()} , {state.Mine.GetIsVisible()}");
 
         //List<Move>の中身みる
         foreach (var item in moveCheck)
@@ -63,11 +74,13 @@ public class DeugLog : MonoBehaviour
             Debug.Log($"From:{item.FromX},{item.FromY}\nTo:{item.ToX},{item.ToY}");
         }
 
+        //Debug.Log(pieceMove[0]);
+
+        Debug.Log($"前grail:{state.Grail.GetMineX()} , {state.Grail.GetMineY()} ,  {state.Grail.GetIsEnable()} , {state.Grail.GetIsVisible()}");
+        Debug.Log($"前mine:{state.Mine.GetMineX()} , {state.Mine.GetMineY()}, {state.Mine.GetIsEnable()},{state.Mine.GetIsVisible()}");
+
         //移動可能パターンから選んだ移動を適用
-        state = MoveApplier.Apply(state, pieceMove[5]);
-
-       
-
+        state = MoveApplier.Apply(state, moveCheck[5]);
 
 
         //盤の出力
@@ -82,18 +95,20 @@ public class DeugLog : MonoBehaviour
             boardStr += "\n";
         }
         Debug.Log(boardStr);
-        Debug.Log($"mine:{state.Mine.GetMineX()},{state.Mine.GetMineY()}");
+        Debug.Log($"今grail:{state.Grail.GetMineX()} , {state.Grail.GetMineY()} ,  {state.Grail.GetIsEnable()} , {state.Grail.GetIsVisible()}");
+        Debug.Log($"今mine:{state.Mine.GetMineX()} , {state.Mine.GetMineY()}, {state.Mine.GetIsEnable()},{state.Mine.GetIsVisible()}");
+        Debug.Log($"BlackHP:{state.BlackHP},WhiteHP:{state.WhiteHP}");
     }
 
     public void OnClickApocalypse()
     {
-        state.Board.Set(2,6, Piece.Empty);
+        state.Board.Set(2, 6, Piece.Empty);
         //state.Board.Set(1,5, Piece.Empty);
         //state.Board.Set(2,5, Piece.Empty);
         //state.Board.Set(3,6, Piece.Empty);
         //state.Board.Set(3,5, Piece.Empty);
 
-            //破壊後の盤
+        //破壊後の盤
         string boardStr = "";
         for (int x = 0; x < 5; x++)
         {
@@ -115,7 +130,8 @@ public class DeugLog : MonoBehaviour
 
         //生存コマ確認
         List<Piece> surviveBlackPieces = CountPieces.SurviveBlackPieceCounter(state);
-        foreach(var item in surviveBlackPieces){
+        foreach (var item in surviveBlackPieces)
+        {
             Debug.Log($"Black:{item.Type}");
         }
         List<Piece> surviveWhitePieces = CountPieces.SurviveWhitePieceCounter(state);

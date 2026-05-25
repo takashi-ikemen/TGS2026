@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 public static class MoveApplier
 {
@@ -7,63 +8,78 @@ public static class MoveApplier
         //現在のStateを別の変数newStateに格納
         var newState = state;
 
-     
+        //地雷が爆発したかの判定をとる
         newState.MineExploded = false;
 
         var piece = newState.Board.Get(move.FromX, move.FromY);
 
-        //ルークの移動経路に地雷があれば爆発
-        if (piece.Type.Equals(PieceType.Rook))
+        //移動先が地雷なら爆発
+        if (move.ToX == state.Mine.GetMineX() && move.ToY == state.Mine.GetMineY() && state.Mine.GetIsEnable() == true)
         {
-            int dx = Math.Sign(move.ToX - move.FromX); // -1, 0, 1
-            int dy = Math.Sign(move.ToY - move.FromY); // -1, 0, 1
-
-            int x = move.FromX + dx;
-            int y = move.FromY + dy;
-
-            newState.Board.Set(move.ToX, move.ToY, piece);
-
-            while (x != move.ToX || y != move.ToY)
-            {
-                // 地雷チェック
-                if (x == state.Mine.GetMineX() && y == state.Mine.GetMineY())
-                {
-                    //地雷爆発処理
-                    newState.MineExploded = true;
-                    newState.ExplosionX = state.Mine.GetMineX();
-                    newState.ExplosionY = state.Mine.GetMineY();
-                    newState.Board.Set(move.ToX, move.ToY, Piece.Empty);
-                    //地雷再設置　0 <= x < 5, 0 <= y < 7
-                    newState.Mine = MineGenerator.GenerateMine(0, 5, 0, 7, newState.Board);
-                }
-
-                x += dx;
-                y += dy;
-            }
-
+            newState = MoveApplier.TouchMine(state, move);
         }
-
-        //その他、移動先が地雷なら爆発
-        else if (move.ToX == state.Mine.GetMineX() && move.ToY == state.Mine.GetMineY())
+        else if (move.ToX == state.Grail.GetMineX() && move.ToY == state.Grail.GetMineY())
         {
-            //地雷爆発処理
-            newState.MineExploded = true;
-            newState.ExplosionX = state.Mine.GetMineX();
-            newState.ExplosionY = state.Mine.GetMineY();
 
-            newState.Board.Set(move.ToX, move.ToY, Piece.Empty);
-            //地雷再設置　0 <= x < 5, 0 <= y < 7
-            newState.Mine = MineGenerator.GenerateMine(0, 5, 0, 7, newState.Board);
+            newState = MoveApplier.TouchGrail(state, move);
         }
-        //違えば移動
         else
         {
             newState.Board.Set(move.ToX, move.ToY, piece);
         }
+
         newState.Board.Set(move.FromX, move.FromY, Piece.Empty);
 
         newState.Turn = state.Turn == PieceColor.White ? PieceColor.Black : PieceColor.White;
 
         return newState;
     }
+
+    private static GameState TouchMine(GameState state , Move move)
+    {
+        var newState = state;
+
+        //地雷を踏んだら自分のHPを2減らす
+        if(state.Board.Get(state.Mine.GetMineX(), state.Mine.GetMineY()).Color.Equals(PieceColor.Black))
+        {
+            newState.BlackHP = state.BlackHP - 2;
+        }
+        else
+        {
+            newState.WhiteHP = state.WhiteHP - 2;
+        }
+
+        newState.Mine.SetIsEnable(false);
+
+        newState.MineExploded = true;
+        newState.Board.Set(move.ToX, move.ToY, Piece.Empty);
+        return newState;
+
+    }
+
+    private static GameState TouchGrail(GameState state, Move move)
+    {
+        var newState = state;
+
+        var piece = newState.Board.Get(move.FromX, move.FromY);
+        newState.Board.Set(move.ToX, move.ToY, piece);
+
+        //地雷再設置 0 <= x < 5 , 0<= y < 7
+        newState = MineGenerator.GenerateMine(0, 5, 0, 7, state);
+
+        //聖杯を取ったら相手のHPを1減らす
+        if(state.Board.Get(state.Grail.GetMineX(),state.Grail.GetMineY()).Color.Equals(PieceColor.Black))
+        {
+            newState.WhiteHP = state.WhiteHP - 1;
+        }
+        else
+        {
+            newState.BlackHP = state.BlackHP - 1;
+        }
+
+        return newState;
+    }
+
+        
+    
 }
