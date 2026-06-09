@@ -8,20 +8,26 @@ public static class MoveApplier
         //現在のStateを別の変数newStateに格納
         var newState = state;
 
-        //地雷が爆発したかの判定をとる
+        //駒がオブジェクトに触れたかのイベント判定
+        newState.TouchObject = false;
+
+        //地雷が爆発したかのイベント判定
         newState.MineExploded = false;
+
+        //聖杯が再配置されたかのイベント判定
+        newState.GrailTake = false;
 
         var piece = newState.Board.Get(move.FromX, move.FromY);
 
         //移動先が地雷なら爆発
-        if (move.ToX == state.Mine.GetMineX() && move.ToY == state.Mine.GetMineY() && state.Mine.GetIsEnable() == true)
+        if (move.ToX == newState.Mine.GetMineX() && move.ToY == newState.Mine.GetMineY() && newState.Mine.GetIsEnable() == true)
         {
-            newState = MoveApplier.TouchMine(state, move);
+            newState = MoveApplier.TouchMine(newState, move);
         }
-        else if (move.ToX == state.Grail.GetMineX() && move.ToY == state.Grail.GetMineY())
+        else if (move.ToX == newState.Grail.GetMineX() && move.ToY == newState.Grail.GetMineY())
         {
 
-            newState = MoveApplier.TouchGrail(state, move);
+            newState = MoveApplier.TouchGrail(newState, move);
         }
         else
         {
@@ -31,6 +37,12 @@ public static class MoveApplier
         newState.Board.Set(move.FromX, move.FromY, Piece.Empty);
 
         newState.Turn = state.Turn == PieceColor.White ? PieceColor.Black : PieceColor.White;
+
+        //聖杯が存在していなければオブジェクトを再生成
+        if (newState.Grail.GetIsEnable() == false)
+        {
+            newState = MineGenerator.GenerateMine(0, 5, 0, 7, newState);
+        }
 
         return newState;
     }
@@ -51,7 +63,8 @@ public static class MoveApplier
 
         newState.Mine.SetIsEnable(false);
 
-        newState.MineExploded = true;
+        newState.TouchObject = true;  //オブジェクトに触れた判定をとる
+        newState.MineExploded = true;  //地雷が爆発したかの判定をとる
         newState.Board.Set(move.ToX, move.ToY, Piece.Empty);
         return newState;
 
@@ -64,11 +77,14 @@ public static class MoveApplier
         var piece = newState.Board.Get(move.FromX, move.FromY);
         newState.Board.Set(move.ToX, move.ToY, piece);
 
-        //地雷再設置 0 <= x < 5 , 0<= y < 7
-        newState = MineGenerator.GenerateMine(0, 5, 0, 7, state);
+        newState.Grail.SetIsEnable(false);
+
+        newState.TouchObject = true;  //オブジェクトに触れた判定をとる
+        newState.GrailTake = true;  //聖杯を獲得した判定をとる
+
 
         //聖杯を取ったら相手のHPを1減らす
-        if(state.Board.Get(state.Grail.GetMineX(),state.Grail.GetMineY()).Color.Equals(PieceColor.Black))
+        if (state.Board.Get(state.Grail.GetMineX(),state.Grail.GetMineY()).Color.Equals(PieceColor.Black))
         {
             newState.WhiteHP = state.WhiteHP - 1;
         }

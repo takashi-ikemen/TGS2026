@@ -12,23 +12,25 @@ public class MineGenerator
 
         //聖杯設置
         Mine grail = new Mine();
-        rx = random.Next(minX, maxX);
-        ry = random.Next(minY, maxY);
-        visible = random.Next(0, 2);
-        grail.SetMineX(rx);
-        grail.SetMineY(ry);
-        grail.SetIsEnable(true);
 
-        //0なら見える、1なら見えない
-        if(visible == 0)
+        while (true)
         {
-            grail.SetIsVisible(true);
+            rx = random.Next(minX, maxX);
+            ry = random.Next(minY, maxY);
+
+            if (state.Board.Get(rx, ry).Equals(Piece.Empty))
+            {
+                grail.SetMineX(rx);
+                grail.SetMineY(ry);
+                grail.SetIsEnable(true);
+
+                visible = random.Next(0, 2);
+                grail.SetIsVisible(visible == 0);
+
+                state.Grail = grail;
+                break;
+            }
         }
-        else
-        {
-            grail.SetIsVisible(false);
-        }
-        state.Grail = grail;
 
         //地雷設置
         //聖杯と被らない位置になるまで

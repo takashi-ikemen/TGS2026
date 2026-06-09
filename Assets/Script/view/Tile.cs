@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         baseColor = rend.material.color;
-        
+
     }
 
     public void SetTile(int x, int y)  //タイルを初期配置する
@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
 
     public void TileHighLight(HighLightTileType type)  //ハイライトをかえる
     {
-        switch(type)
+        switch (type)
         {
             case HighLightTileType.CanArea:
                 rend.material.color = Color.green;

@@ -50,9 +50,9 @@ public class PieceView : MonoBehaviour
     {
         Vector3 start = transform.position;
         float time = 0f;
-        while(time < duration)
+        while (time < duration)
         {
-            time  += Time.deltaTime;
+            time += Time.deltaTime;
             float t = time / duration;
 
             //なめらか補正(Ease)
@@ -68,7 +68,7 @@ public class PieceView : MonoBehaviour
 
     public void SetHighLight(HighLightType type)  //ハイライトをかえる
     {
-        switch(type)
+        switch (type)
         {
             case HighLightType.Hover:
                 rend.material.color = Color.yellow;

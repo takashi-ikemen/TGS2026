@@ -13,7 +13,9 @@ public struct GameState
     public int WhiteHP;  //White(白)のHPs
 
     //一時イベント
+    public bool TouchObject;
     public bool MineExploded;
+    public bool GrailTake;
 
     public int ExplosionX;  //地雷が爆発した位置を保持(x)
     public int ExplosionY;  //地雷が爆発した位置を保持(y)
