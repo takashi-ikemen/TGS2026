@@ -14,6 +14,8 @@ public class PieceViewManager : MonoBehaviour
     [SerializeField] private GameObject whiteKing;
     [SerializeField] private GameObject blackKing;
 
+    [SerializeField] ObjectViewManager objectViewManager;
+
     public void Initialize(GameState state)
     {
         SpawnPieces(state);
@@ -55,7 +57,7 @@ public class PieceViewManager : MonoBehaviour
 
         view.MoveTo(move.ToX, move.ToY);
 
-        if (move.ToX == state.Mine.GetMineX() && move.ToY == state.Mine.GetMineY())
+        if (move.ToX == state.Mine.GetMineX() && move.ToY == state.Mine.GetMineY() && objectViewManager.isMineExist == true)
         {
             Destroy(view.gameObject);
         }

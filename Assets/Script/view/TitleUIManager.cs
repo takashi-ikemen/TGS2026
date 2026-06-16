@@ -7,6 +7,8 @@ public class TitleUIManager : MonoBehaviour
 
     [SerializeField] GameObject settingPanel;
 
+    [SerializeField] SceneController sceneController;
+
     private void Start()
     {
         mainPanel.SetActive(true);
@@ -16,6 +18,14 @@ public class TitleUIManager : MonoBehaviour
     public void OnClickStart()
     {
         Debug.Log("ゲーム開始");
+        sceneController.SceneChange("GameScene");
+
+    }
+
+    public void OnClickRetry()
+    {
+        Debug.Log("タイトルに戻る");
+        sceneController.SceneChange("StartScene");
     }
 
     public void OnClickSetting()

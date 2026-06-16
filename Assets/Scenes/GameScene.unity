@@ -284,6 +284,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &266054310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266054312}
+  - component: {fileID: 266054311}
+  m_Layer: 0
+  m_Name: SceneController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &266054311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266054310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be4458eb5173c43478a99ed73915be90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &266054312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266054310}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 451.5, y: 203.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &315538268
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +365,7 @@ MonoBehaviour:
   blackKnight: {fileID: 5342540624959599606, guid: 5ff58380a445ff343adecf4279a23de7, type: 3}
   whiteKing: {fileID: 7791864027844564995, guid: 0aa59d026cc8daa48af9bb865e641510, type: 3}
   blackKing: {fileID: 4502285685062313448, guid: b736c99dc83a2a243bbb04907c6e591d, type: 3}
+  objectViewManager: {fileID: 1764837819}
 --- !u!4 &315538270
 Transform:
   m_ObjectHideFlags: 0
@@ -1387,6 +1432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minePrefab: {fileID: 6896592458329427729, guid: 88de91f2e35c6e74d951ff7754867c0c, type: 3}
   grailPrefab: {fileID: 878601312513586788, guid: df304d8afb707414bbbe6c5dac0cf709, type: 3}
+  isMineExist: 0
 --- !u!4 &1764837820
 Transform:
   m_ObjectHideFlags: 0
@@ -1629,3 +1675,4 @@ SceneRoots:
   - {fileID: 243206147}
   - {fileID: 1764837820}
   - {fileID: 315538270}
+  - {fileID: 266054312}

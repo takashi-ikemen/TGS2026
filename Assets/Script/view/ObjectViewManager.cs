@@ -11,6 +11,8 @@ public class ObjectViewManager : MonoBehaviour
     private bool isMineView;
     private bool isGrailView;
 
+    public bool isMineExist;
+
     public void Initialize(GameState state)
     {
         Spawn(state);
@@ -23,6 +25,7 @@ public class ObjectViewManager : MonoBehaviour
             if (state.MineExploded)
             {
                 Debug.Log("’n—‹”š”­");
+                isMineExist = false;
                 Destroy(mineView.gameObject);
             }
             else if (state.GrailTake)
@@ -62,6 +65,8 @@ public class ObjectViewManager : MonoBehaviour
         grailView =
             Instantiate(grailPrefab)
             .GetComponent<GrailView>();
+
+        isMineExist = true;
 
         mineView.isView = isMineView;
         grailView.isView = isGrailView;
