@@ -12,6 +12,15 @@ public struct GameState
     public int BlackHP;  //Black(黒)のHP
     public int WhiteHP;  //White(白)のHPs
 
+    //カード関連
+    public List<Card> DeckCards;
+    public List<Card> WhiteCards;
+    public List<Card> BlackCards;
+
+    //シールド
+    public int WhiteShield;
+    public int BlackShield;
+
     //一時イベント
     public bool TouchObject;
     public bool MineExploded;

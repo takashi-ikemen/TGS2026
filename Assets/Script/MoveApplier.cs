@@ -54,18 +54,28 @@ public static class MoveApplier
         //地雷を踏んだら自分のHPを2減らす
         if(state.Board.Get(state.Mine.GetMineX(), state.Mine.GetMineY()).Color.Equals(PieceColor.Black))
         {
-            newState.BlackHP = state.BlackHP - 2;
+            //newState.BlackHP = state.BlackHP - 2;
+
+            newState.BlackHP = state.BlackHP - (2 - state.BlackShield);//シールドがあれば軽減
+            newState.BlackShield = 0;//シールド消失
         }
         else
         {
-            newState.WhiteHP = state.WhiteHP - 2;
+            //newState.WhiteHP = state.WhiteHP - 2;
+            newState.WhiteHP = state.WhiteHP - (2 - state.WhiteShield);//シールドがあれば軽減
+            newState.WhiteShield = 0;//シールド消失
         }
 
         newState.Mine.SetIsEnable(false);
 
         newState.TouchObject = true;  //オブジェクトに触れた判定をとる
         newState.MineExploded = true;  //地雷が爆発したかの判定をとる
-        newState.Board.Set(move.ToX, move.ToY, Piece.Empty);
+        newState.Board.Set(move.ToX, move.ToY, Piece.Empty);//踏んだ駒を破壊
+
+        //駒が破壊されたのでカードを引く
+        CardDrawer cardDrawer = new CardDrawer();
+        newState = cardDrawer.DrawCard(newState);
+
         return newState;
 
     }

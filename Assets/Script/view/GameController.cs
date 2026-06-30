@@ -6,29 +6,51 @@ public class GameController : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask pieceLayer;
     [SerializeField] private LayerMask tileLayer;
+    [SerializeField] private LayerMask cardLayer;
+    [SerializeField] private LayerMask changeModeLayer;
 
     [SerializeField] private GameManager gameManager;
     [SerializeField] private TileManager tileManager;
     [SerializeField] private PieceViewManager pieceViewManager;
+    [SerializeField] private CardViewManager cardViewManager;
+
+    [SerializeField] GameObject target;
 
     private List<Move> currentMoves;
 
     private PieceView currentHoverPiece;
     private PieceView selectedPiece;
     private Tile currentTile;
+    private CardView currentCard;
 
     private bool selectingMove;
+    private bool selectingUseCard;  //カードを使用するモードかどうか
+    private bool isExecutedGenerateCard;
 
     void Update()
     {
-        if (!selectingMove)
+        ChangeUseCardMode();
+
+        if (selectingUseCard)
         {
-            SelectPiece();
+            //cardViewManager.Visible();
+
+            UseCardMode();
         }
         else
         {
-            SelectDestination();
+            //cardViewManager.Invisible();
+
+            if (!selectingMove)
+            {
+                SelectPiece();
+            }
+            else
+            {
+                SelectDestination();
+            }
         }
+        
     }
 
     void SelectPiece()
@@ -95,5 +117,53 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void ChangeUseCardMode()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(ray,out RaycastHit hit, 100f, changeModeLayer))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (selectingUseCard)
+                {
+                    Debug.Log("クリックできてる、true");
+                    selectingUseCard = false;//カードモードのフラグをfalseにする
+                    cardViewManager.ClearCards();
+                    isExecutedGenerateCard = false;//カード生成のフラグをfalseにする
+                    //cardViewManager.Invisible();
+                }
+                else
+                {
+                    Debug.Log("クリックできてる、false");
+                    selectingUseCard = true;//カードモードのフラグをtrueにする
+                    //cardViewManager.Visible();
+                }
+            }
+            
+        }
+    }
+
+    void UseCardMode()
+    {
+        if (!isExecutedGenerateCard)
+        {
+            gameManager.GenerateCard();
+            isExecutedGenerateCard = true;
+        }
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(ray,out RaycastHit hit, 100f, cardLayer))
+        {
+            currentCard = hit.collider.GetComponent<CardView>();
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("カードを使用！");
+                gameManager.UseCard(currentCard);
+            }
+        }
+       
+    }
 
 }

@@ -43,13 +43,32 @@ public static class GameInitializer
             Turn = PieceColor.White,
             Winner = Winner.none,
             BlackHP = 6,
-            WhiteHP = 6
+            WhiteHP = 6,
+            BlackShield = 0,
+            WhiteShield = 0
+
         };
+
 
         //　地雷配置
         //初期配置は0 <= x < 5, 2 <= y < 5
 
         state = MineGenerator.GenerateMine(0, 5, 2, 5, state);
+
+        //カード生成
+        Card randomHP = new RandomHPCard();
+        Card shield = new ShieldCard();
+        Card switchPiece = new SwitchPieceCard();
+
+        //カードを山札に追加
+        state.DeckCards = new List<Card>();
+        state.DeckCards.Add(randomHP);
+        state.DeckCards.Add(shield);
+        state.DeckCards.Add(switchPiece);
+
+        //手札初期化
+        state.BlackCards = new List<Card>();
+        state.WhiteCards = new List<Card>();
 
         return state;
 

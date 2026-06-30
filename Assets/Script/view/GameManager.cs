@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,14 +10,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ObjectViewManager objectViewManager;
     [SerializeField] private TileManager tileManager;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private CardViewManager cardViewManager;
+    [SerializeField] private HPManager hpManager;
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private SceneController sceneController;
+
+    //前のStateを保持
+    private GameState currentState;
 
     private void Start()
     {
         //初期stateの取得
         State = GameInitializer.CreateInitial();
 
+        currentState = State;
+
         //SpawnObjectのためにいったんtureにする
         // State.GrailTake = true;
+
+        cameraManager.ShowMainCamera(); //メインカメラに切り替え
 
 
         tileManager.Initialize();//タイルの配置
@@ -26,8 +38,11 @@ public class GameManager : MonoBehaviour
 
         uiManager.UpdateHP(State.WhiteHP, State.BlackHP);  //HPのUIを表示
         uiManager.UpdateTurn(State.Turn);  //ターンを表示
+        hpManager.Initialize();
+
 
         State.GrailTake = false; //オブジェクトが取られていない状態に戻す
+
     }
 
     /// <summary>
@@ -47,8 +62,26 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateHP(State.WhiteHP, State.BlackHP);
         uiManager.UpdateTurn(State.Turn);
 
+        //HPが変更されていたら
+        if(currentState.BlackHP != State.BlackHP)
+        {
+            hpManager.UpdateHP(false, State.BlackHP);
+        }
+
+        if(currentState.WhiteHP != State.WhiteHP)
+        {
+            hpManager.UpdateHP(true, State.WhiteHP);
+        }
+     
         //勝利判定
         CheckWinner(State);
+
+        //テスト用
+        //cardViewManager.GenerateCard(State.WhiteCards);
+
+        //currentStateの更新
+        currentState = State;
+       
     }
 
     /// <summary>
@@ -59,11 +92,15 @@ public class GameManager : MonoBehaviour
         if (state.WhiteHP <= 0)
         {
             Debug.Log("Black Win");
+            sceneController.isWhiteWin = false;
+            sceneController.SceneChange("ResultScene");
         }
 
         if (state.BlackHP <= 0)
         {
             Debug.Log("White Win");
+            sceneController.isWhiteWin = true;
+            sceneController.SceneChange("ResultScene");
         }
     }
 
@@ -74,5 +111,30 @@ public class GameManager : MonoBehaviour
 
         List<Move> pieceMove = moveCheck.FindAll(move => move.FromX == fx && move.FromY == fy);
         return pieceMove;
+    }
+
+    public void GenerateCard()
+    {
+        if (State.WhiteCards.Count <= 0) return;
+        cardViewManager.GenerateCard(State.WhiteCards);
+    }
+
+    public void  UseCard(CardView cardView)
+    {
+
+        Debug.Log("カード効果発動");
+        string cardName = cardView.cardName;
+
+        //カード効果使用後の変更を適用
+        State = CardUser.UseCard(State, cardName);
+        //カードを除外した後の変更を適用
+        State = CardRemover.RemoveCard(State, cardName);
+
+        cardViewManager.ClearCards();
+
+        currentState = State;
+
+
+
     }
 }

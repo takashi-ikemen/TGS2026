@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    public bool isWhiteWin;
     /// <summary>
     /// ƒV[ƒ“‘JˆÚ
     /// </summary>
@@ -11,4 +12,6 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(_loadScene);
     }
+
+
 }
