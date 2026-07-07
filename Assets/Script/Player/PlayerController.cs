@@ -1,0 +1,31 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 5f;
+
+    private Rigidbody rb;
+    private Vector2 moveInput;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 move =
+            transform.forward * moveInput.y +
+            transform.right * moveInput.x;
+
+        rb.MovePosition(
+            rb.position + move * moveSpeed * Time.fixedDeltaTime);
+    }
+}
