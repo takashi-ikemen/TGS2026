@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform player;
+    [SerializeField] private Transform CameraPivot;
     [SerializeField] private float sensitivity = 150f;
 
     private Vector2 lookInput;
@@ -30,6 +31,7 @@ public class CameraController : MonoBehaviour
         //è„â∫ÇÕCameraPivotÇæÇØâÒì]
         pitch -= mouseY;
         pitch = Mathf.Clamp(pitch, -80f, 80f);
+
 
         transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
