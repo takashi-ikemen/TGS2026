@@ -13,6 +13,8 @@ public class PieceViewManager : MonoBehaviour
     [SerializeField] private GameObject blackKnight;
     [SerializeField] private GameObject whiteKing;
     [SerializeField] private GameObject blackKing;
+    [SerializeField] private GameObject whiteBishop;
+    [SerializeField] private GameObject blackBishop;
 
     [SerializeField] ObjectViewManager objectViewManager;
 
@@ -78,6 +80,9 @@ public class PieceViewManager : MonoBehaviour
 
         if (piece.Type == PieceType.King)
             return piece.Color == PieceColor.White ? whiteKing : blackKing;
+
+        if (piece.Type == PieceType.Bishop)
+            return piece.Color == PieceColor.White ? whiteBishop : blackBishop;
 
         return null;
     }

@@ -14,12 +14,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HPManager hpManager;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private SceneController sceneController;
+    [SerializeField] private FadeController fadeController;
 
     //前のStateを保持
     private GameState currentState;
 
     private void Start()
     {
+        //フェードイン
+        fadeController.FadeIn();
+
+        //カーソルを表示・自由移動
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         //初期stateの取得
         State = GameInitializer.CreateInitial();
 
@@ -128,7 +136,7 @@ public class GameManager : MonoBehaviour
         //カード効果使用後の変更を適用
         State = CardUser.UseCard(State, cardName);
         //カードを除外した後の変更を適用
-        State = CardRemover.RemoveCard(State, cardName);
+        State = CardRemover.RemoveCard(State);
 
         cardViewManager.ClearCards();
 

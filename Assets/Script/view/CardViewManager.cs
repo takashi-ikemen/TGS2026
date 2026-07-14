@@ -6,9 +6,21 @@ public class CardViewManager : MonoBehaviour
     //[SerializeField] private Transform handRoot;
 
     //カードのPrefab
+    [SerializeField] private GameObject AdditionalMoveCard;
+    [SerializeField] private GameObject BindPieceCard;
+    [SerializeField] private GameObject DetectMineCard;
+    [SerializeField] private GameObject EXTurnCard;
+    [SerializeField] private GameObject ForceMoveCard;
+    [SerializeField] private GameObject GainMineDamageCard;
     [SerializeField] private GameObject RandomHPCard;
+    [SerializeField] private GameObject RestrictMoveCard;
     [SerializeField] private GameObject ShieldCard;
+    [SerializeField] private GameObject ShuffleMineCard;
+    [SerializeField] private GameObject ShufflePieceCard;
     [SerializeField] private GameObject SwitchPieceCard;
+    [SerializeField] private GameObject UnbreakablePieceCard;
+    [SerializeField] private GameObject VisualizeMineCard;
+
     //カードを生成する親
     [SerializeField] Transform handRoot;
 

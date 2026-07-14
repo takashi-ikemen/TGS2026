@@ -14,14 +14,14 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
-        whiteHP.Initialize(6);
-        blackHP.Initialize(6);
+        //whiteHP.Initialize(6);
+        //blackHP.Initialize(6);
     }
 
     public void UpdateHP(int white, int black)
     {
-        whiteHP.UpdateHP(white);
-        blackHP.UpdateHP(black);
+        //whiteHP.UpdateHP(white);
+        //blackHP.UpdateHP(black);
     }
 
     public void UpdateTurn(PieceColor turn)

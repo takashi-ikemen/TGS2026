@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private PieceViewManager pieceViewManager;
     [SerializeField] private CardViewManager cardViewManager;
 
+    //UI
+    [SerializeField] private FadeController fadeController;
+
     [SerializeField] GameObject target;
 
     private List<Move> currentMoves;
@@ -29,6 +32,10 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        //Tick
+        fadeController.Tick();
+
+
         ChangeUseCardMode();
 
         if (selectingUseCard)
