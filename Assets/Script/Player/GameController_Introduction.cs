@@ -11,6 +11,8 @@ public class GameController_Introduction : MonoBehaviour
 
         //カーソルを非表示
         Cursor.visible = false;
+
+        fadeController.FadeIn();
     }
 
     public void Update()

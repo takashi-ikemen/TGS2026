@@ -4,7 +4,7 @@ using UnityEngine;
 public class CardUser
 {
 
-    public GameState ChooseUseCard(GameState state, string name)
+    static public GameState ChooseUseCard(GameState state, string name)
     {
         int i = 0;
         var newState = state;

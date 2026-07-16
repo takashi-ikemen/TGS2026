@@ -94,12 +94,34 @@ public class CardViewManager : MonoBehaviour
 
         switch (name)
         {
+            case "AdditionalMoveCard":
+                return AdditionalMoveCard;
+            case "BindPieceCard":
+                return BindPieceCard;
+            case "DetectMineCard":
+                return DetectMineCard;
+            case "EXTurnCard":
+                return EXTurnCard;
+            case "ForceMoveCard":
+                return ForceMoveCard;
+            case "GainMineDamageCard":
+                return GainMineDamageCard;
             case "RandomHPCard":
                 return RandomHPCard;
+            case "RestrictMoveCard":
+                return RestrictMoveCard;
             case "ShieldCard":
                 return ShieldCard;
+            case "ShuffleMineCard":
+                return ShuffleMineCard;
+            case "ShufflePieceCard":
+                return ShufflePieceCard;
             case "SwitchPieceCard":
                 return SwitchPieceCard;
+            case "UnbreakablePieceCard":
+                return UnbreakablePieceCard;
+            case "VisualizeMineCard":
+                return VisualizeMineCard;
             default:
                 return null;
                 

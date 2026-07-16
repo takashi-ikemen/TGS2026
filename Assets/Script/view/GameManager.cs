@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// struct側の変更をView上に適用
+    /// 移動を適用するときはこっちを使う
     /// </summary>
     public void ApplyMove(Move move)
     {
@@ -124,7 +125,7 @@ public class GameManager : MonoBehaviour
     public void GenerateCard()
     {
         if (State.WhiteCards.Count <= 0) return;
-        cardViewManager.GenerateCard(State.WhiteCards);
+        cardViewManager.GenerateCard(currentState.WhiteCards);
     }
 
     public void  UseCard(CardView cardView)
@@ -134,12 +135,13 @@ public class GameManager : MonoBehaviour
         string cardName = cardView.cardName;
 
         //カード効果使用後の変更を適用
+        State = CardUser.ChooseUseCard(State, cardName);
         State = CardUser.UseCard(State, cardName);
-        //カードを除外した後の変更を適用
-        State = CardRemover.RemoveCard(State);
 
+        //手持ちのカードを一度クリアする
         cardViewManager.ClearCards();
 
+        //Stateを最新のものに変更
         currentState = State;
 
 

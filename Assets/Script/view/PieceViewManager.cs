@@ -5,8 +5,8 @@ public class PieceViewManager : MonoBehaviour
 {
     private PieceView[,] views = new PieceView[5, 7];
 
-    [SerializeField] private GameObject whitePawn;
-    [SerializeField] private GameObject blackPawn;
+    //[SerializeField] private GameObject whitePawn;
+    //[SerializeField] private GameObject blackPawn;
     [SerializeField] private GameObject whiteRook;
     [SerializeField] private GameObject blackRook;
     [SerializeField] private GameObject whiteKnight;
@@ -69,8 +69,8 @@ public class PieceViewManager : MonoBehaviour
     {
         //à¯êîÇ…ì¸ÇÍÇΩPieceTypeÇ…ÇÊÇ¡ÇƒÅAÇªÇÍÇ…ëŒâûÇµÇΩPrefabÇï‘Ç∑
         Debug.Log(piece.Type);
-        if (piece.Type == PieceType.Pawn)
-            return piece.Color == PieceColor.White ? whitePawn : blackPawn;
+        /*if (piece.Type == PieceType.Pawn)
+            return piece.Color == PieceColor.White ? whitePawn : blackPawn;*/
 
         if (piece.Type == PieceType.Rook)
             return piece.Color == PieceColor.White ? whiteRook : blackRook;
